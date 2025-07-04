@@ -1,0 +1,19 @@
+html[data-mantine-color-scheme='dark'],
+body[data-mantine-color-scheme='dark'] {
+  background-color: #1a1b1e;
+  color: white;
+}
+
+html[data-mantine-color-scheme='light'],
+body[data-mantine-color-scheme='light'] {
+  background-color: white;
+  color: black;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #1a1b1e;
+  transition: background-color 0.2s ease;
+}
