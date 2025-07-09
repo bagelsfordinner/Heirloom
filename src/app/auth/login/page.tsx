@@ -14,11 +14,13 @@ import { useState } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { useRouter } from 'next/navigation';
+import { useToastStore } from '@/lib/toast';
 
 export default function LoginPage() {
   const router = useRouter();
   const [visible, setVisible] = useState(false);
   const { register, handleSubmit } = useForm();
+  const addToast = useToastStore((s) => s.addToast);
 
   const onSubmit = async (data: any) => {
     let email = data.email_or_username;
@@ -33,9 +35,9 @@ export default function LoginPage() {
         .single();
 
       if (error || !profile?.id) {
-        return alert('Username not found');
+        addToast('error', 'Username not found');
+        return;
       }
-
       // Get email from auth.users
       const { data: userInfo, error: userError } = await supabase
         .from('users_extended')
@@ -44,7 +46,8 @@ export default function LoginPage() {
         .single();
 
       if (userError || !userInfo?.email) {
-        return alert('Unable to resolve email for this username');
+        addToast('error', 'Unable to resolve email for this username');
+        return;
       }
 
       email = userInfo.email;
@@ -56,8 +59,12 @@ export default function LoginPage() {
       password,
     });
 
-    if (loginError) return alert(loginError.message);
+    if (loginError) {
+      addToast('error', loginError.message);
+      return;
+    }
 
+    addToast('success', 'Logged in successfully!');
     router.push('/dashboard');
   };
 

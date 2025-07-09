@@ -30,9 +30,11 @@ export function CampaignCard({
 }) {
   return (
     <Card shadow="sm" p="md" radius="md" withBorder style={{ width: 320 }}>
-      <Card.Section>
-        <Image src={cover} height={140} alt={`${name} cover`} />
-      </Card.Section>
+      {cover && (
+        <Card.Section>
+          <Image src={cover} height={140} alt={`${name} cover`} />
+        </Card.Section>
+      )}
       <Stack gap="xs" mt="sm">
         <Group justify="space-between">
           <Text fw={500}>{name}</Text>
